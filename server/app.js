@@ -1,9 +1,11 @@
 process.loadEnvFile()
 
+const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 5005
+const CLIENT_PORT = process.env.CLIENT_PORT || 5173
 
 // STATIC DATA
 // Devs Team - Import the provided files with JSON data of students and cohorts here:
@@ -20,6 +22,11 @@ app.use(morgan('dev'))
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(
+  cors({
+    origin: [`http://localhost:${CLIENT_PORT}`], // Add the URLs of allowed origins to this array
+  }),
+)
 
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
@@ -44,3 +51,4 @@ app.get('/api/cohorts', (req, res) => {
 app.get('/api/students', (req, res) => {
   res.json(students)
 })
+
