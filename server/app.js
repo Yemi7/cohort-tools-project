@@ -7,13 +7,17 @@ const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 5005
 const CLIENT_PORT = process.env.CLIENT_PORT || 5173
 
+const mongoose = require('mongoose')
+
 // STATIC DATA
 // Devs Team - Import the provided files with JSON data of students and cohorts here:
 // ...
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express()
-
+mongoose.connect('mongodb://127.0.0.1:27017/cohort-tools-api')
+  .then(x => console.log(`Connected to the database ${x.connections[0].name}`))
+  .catch(error => console.log(`Connection error${error}`))
 // MIDDLEWARE
 // Research Team - Set up CORS middleware here:
 // ...
