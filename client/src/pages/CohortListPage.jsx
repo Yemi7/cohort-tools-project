@@ -24,6 +24,7 @@ function CohortListPage() {
       .get(`${API_URL}/api/cohorts?${queryString}`)
       .then((response) => {
         setCohorts(response.data);
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }, [campusQuery, programQuery]);
@@ -60,15 +61,13 @@ function CohortListPage() {
       </div>
 
       {cohorts &&
-        cohorts.map(
-          (cohort, index) => (
-              <CohortCard
-                key={cohort._id}
-                {...cohort}
-                className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}
-              />
-          )
-        )}
+        cohorts.map((cohort, index) => (
+          <CohortCard
+            key={cohort._id}
+            {...cohort}
+            className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}
+          />
+        ))}
     </div>
   );
 }
