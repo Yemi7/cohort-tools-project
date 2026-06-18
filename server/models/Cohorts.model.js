@@ -22,7 +22,7 @@ const cohortSchema = new Schema({
       "Remote",
     ],
   },
-  startDate: { type: Date, default: new Date() },
+  startDate: { type: Date, default: Date.now },
   endDate: Date,
   inProgress: { type: Boolean, default: false },
   programManager: { type: String, required: true },

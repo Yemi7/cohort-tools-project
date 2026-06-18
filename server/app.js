@@ -6,7 +6,6 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || 5005;
-const CLIENT_PORT = process.env.CLIENT_PORT || 5173;
 
 // IMPORT MODELS
 const Cohort = require("./models/Cohorts.model");
@@ -33,7 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [`http://localhost:${CLIENT_PORT}`], // Add the URLs of allowed origins to this array
+    origin: [process.env.ORIGIN], // Add the URLs of allowed origins to this array
   }),
 );
 
@@ -67,8 +66,34 @@ app.get("/api/cohorts/:cohortId", async (req, res) => {
 });
 
 app.post("/api/cohorts", async (req, res) => {
+  const {
+    cohortSlug,
+    cohortName,
+    program,
+    format,
+    campus,
+    startDate,
+    endDate,
+    inProgress,
+    programManager,
+    leadTeacher,
+    totalHours,
+  } = req.body;
   try {
-    const response = await Cohort.create(req.body);
+    const newCohort = {
+      cohortSlug,
+      cohortName,
+      program,
+      format,
+      campus,
+      startDate,
+      endDate,
+      inProgress,
+      programManager,
+      leadTeacher,
+      totalHours,
+    };
+    const response = await Cohort.create(newCohort);
     res.json(response);
   } catch (error) {
     res.json(error);
@@ -131,8 +156,34 @@ app.get("/api/students/:studentId", async (req, res) => {
 });
 
 app.post("/api/students", async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    linkedinUrl,
+    languages,
+    program,
+    background,
+    image,
+    cohort,
+    projects,
+  } = req.body;
   try {
-    const response = await Student.create(req.body);
+    const newStudent = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      linkedinUrl,
+      languages,
+      program,
+      background,
+      image,
+      cohort,
+      projects,
+    };
+    const response = await Student.create(newStudent);
     res.json(response);
   } catch (error) {
     res.json(error);
@@ -140,10 +191,37 @@ app.post("/api/students", async (req, res) => {
 });
 
 app.put("/api/students/:studentId", async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    linkedinUrl,
+    languages,
+    program,
+    background,
+    image,
+    cohort,
+    projects,
+  } = req.body;
   try {
+    const updatedStudent = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      linkedinUrl,
+      languages,
+      program,
+      background,
+      image,
+      cohort,
+      projects,
+    };
+    console.log(updatedStudent);
     const response = await Student.findByIdAndUpdate(
       req.params.studentId,
-      req.body,
+      updatedStudent,
       { returnDocument: "after", runValidators: true },
     );
     res.json(response);
