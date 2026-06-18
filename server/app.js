@@ -80,10 +80,9 @@ app.put("/api/cohorts/:cohortId", async (req, res) => {
     const response = await Cohort.findByIdAndUpdate(
       req.params.cohortId,
       req.body,
-      { returnDocument: "after" },
+      { returnDocument: "after", runValidators: true },
     );
     res.json(response);
-    console.log(response);
   } catch (error) {
     res.json(error);
   }
@@ -145,7 +144,7 @@ app.put("/api/students/:studentId", async (req, res) => {
     const response = await Student.findByIdAndUpdate(
       req.params.studentId,
       req.body,
-      { returnDocument: "after" },
+      { returnDocument: "after", runValidators: true },
     );
     res.json(response);
   } catch (error) {
