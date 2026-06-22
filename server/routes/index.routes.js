@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const verifyToken = require("../middleware/auth.middleware.js")
 
 // COHORTS
 const cohortRouter = require("./cohorts.routes.js")
@@ -11,5 +12,8 @@ router.use("/students", studentRouter)
 // AUTHENTICATION
 const authRouter = require("./auth.routes.js")
 router.use("/auth", authRouter)
+// USERS
+const userRouter = require("./user.routes")
+router.use("/users", userRouter)
 
 module.exports = router

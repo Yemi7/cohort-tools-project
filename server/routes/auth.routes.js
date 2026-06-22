@@ -2,6 +2,7 @@ const router = require("express").Router()
 const User = require("../models/User.model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const verifyToken = require("../middleware/auth.middleware")
 
 // POST /api/auth/signup route
 router.post("/signup", async (req, res, next) => {
@@ -80,13 +81,15 @@ router.post("/login", async (req, res, next) => {
     const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
       expiresIn: "7d",
     })
-    console.log(payload);
+    console.log(payload)
     res.status(200).json({ authToken: authToken })
   } catch (error) {
     next(error)
   }
+})
 
-  // compare password
+router.get("/verify", verifyToken, (req, res, next) => {
+  res.status(200).json(req.payload)
 })
 
 module.exports = router
